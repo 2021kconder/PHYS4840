@@ -1,7 +1,7 @@
 #!usr/local/Anaconda2023/bin/python3.11
 
 from math import sqrt
-from math import sin
+from math import sin, tanh
 import numpy as np
 import matplotlib.pyplot as plt
 import conder_functions_lib as cfl
@@ -450,6 +450,8 @@ ax[1].set_title('Gaia')
 fig.tight_layout(pad=2.0)
 plt.show()
 
+
+
 ########################################
 #
 # Previously Defined Integration Methods
@@ -476,7 +478,53 @@ print('Initial Simps Gaia =', gaia_simp)
 print('Initial Romb Gaia =',  gaia_romb)
 print('np.trapz Comparison =', np.trapz(gaia_col_two, gaia_col_one))
 
-'''With the above answers, we are utilizing the same N value for all of our methods and not changing the numerical 
+print()
+
+'''Examining the plot above, we recognize that the tail of the Vega spectrum is going to create errors within 
+our integration methods, particularly Romberg. Therefore, we can remove the tail end of this data to improve the 
+accuracy of our integration method.'''
+
+new_vega = np.where(vega_wavelength < 20000)
+
+vega_wavelength = vega_wavelength[new_vega]
+vega_flux = vega_flux[new_vega]
+
+#plotting out our curves 
+fig, ax = plt.subplots()
+
+ax.plot(vega_wavelength, vega_flux, color='blue')
+ax.set_xlabel('Wavelength')
+ax.set_ylabel('Flux')
+ax.set_xscale('log')
+ax.set_title('NEW Vega Spectrum')
+
+
+
+fig.tight_layout(pad=2.0)
+plt.show()
+
+vega_trap_mid = trapezoidal(vega_flux, vega_wavelength, 20) 
+vega_simp_mid = simpsons(vega_flux, vega_wavelength, 20)
+vega_romb_mid = romberg(vega_flux, vega_wavelength, 20)
+
+gaia_trap = trapezoidal(gaia_col_two, gaia_col_one, 20)
+gaia_simp = simpsons(gaia_col_two, gaia_col_one, 20)
+gaia_romb = romberg(gaia_col_two, gaia_col_one, 20)
+
+print('Slightly Improved Trapz Vega =', vega_trap_mid)
+print('Slightly Improved Simps Vega =', vega_simp_mid)
+print('Slightly Improved Romb Vega =',  vega_romb_mid)
+print('np.trapz Comparison =', np.trapz(vega_flux, vega_wavelength))
+
+print()
+
+print('Slightly Improved Trapz Gaia =', gaia_trap)
+print('Slightly Improved Simps Gaia =', gaia_simp)
+print('Slightly Improved Romb Gaia =',  gaia_romb)
+print('np.trapz Comparison =', np.trapz(gaia_col_two, gaia_col_one))
+
+
+'''With the above answers, we are still utilizing the same N value for all of our methods and not changing the numerical 
 integration methods from Problem 0. However, when we do this, we find dissimilar values across our integration methods. 
 In order to obtain similar values for the area under our cuves, we present two changes: 
 
