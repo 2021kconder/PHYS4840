@@ -13,12 +13,14 @@
 import numpy as np 
 from pylab import plot, xlabel, ylabel, show
 
+
+	
 # Constants
 L = 0.01 		#Thickness of the steel in meters
-D = 4.25e-6 	#Thermal diffusivity 
+D = 0.1 		#Thermal difusivity, m^2 per day 
 N = 100			#Number of divisions in grid
 a = L/N 		#Grid spacing
-h = 1e-4 		#Time step
+h =  		#Time step
 epsilon = h/100
 
 t_low = 00.0 	#low temperature in C
@@ -51,7 +53,7 @@ while t<tend:
 	#Calculate the new values of T
 	for i in range(1,N):
 		Tp[i] = T[i] + c*(T[i+1] + T[i-1] - 2*T[i])
-	T, Tp = Tp, Tp
+	T, Tp = Tp, T
 	t+=h
 
 	#Make plots at these given times
