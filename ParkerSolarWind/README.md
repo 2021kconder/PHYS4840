@@ -150,7 +150,7 @@ Repeat the above steps but with the second file in the 'program_executables' fol
 >$ sub PSW_function_library.py
 
 
-**You can now prepare to run the program by proceeding as follows:**
+**You can now prepare to run the program by proceeding as follows:**        
 **--------------------------------------------------------------------------**
 
 
